@@ -16,9 +16,7 @@
    +----------------------------------------------------------------------+
 */
 
-/* $Id$ */
-
-#define CONFIGURE_COMMAND " './configure'  '--prefix=/home/xtreamcodes/iptv_xtream_codes/php' '--with-zlib-dir' '--with-freetype-dir' '--enable-mbstring' '--enable-calendar' '--with-curl' '--with-mcrypt' '--with-gd' '--disable-rpath' '--enable-inline-optimization' '--with-bz2' '--with-zlib' '--enable-sockets' '--enable-sysvsem' '--enable-sysvshm' '--enable-pcntl' '--enable-mbregex' '--enable-exif' '--enable-bcmath' '--with-mhash' '--enable-zip' '--with-pcre-regex' '--with-mysql=mysqlnd' '--with-pdo-mysql=mysqlnd' '--with-mysqli=mysqlnd' '--enable-gd-native-ttf' '--with-openssl' '--with-fpm-user=xtreamcodes' '--with-fpm-group=xtreamcodes' '--with-libdir=/lib/x86_64-linux-gnu' '--with-gettext' '--with-xmlrpc' '--with-xsl' '--enable-opcache' '--enable-fpm' '--enable-libxml' '--enable-static' '--disable-shared'"
+#define CONFIGURE_COMMAND " './configure'  '--prefix=/home/xtreamcodes/iptv_xtream_codes/php' '--with-zlib-dir' '--enable-mbstring' '--enable-calendar' '--with-curl' '--with-gd' '--disable-rpath' '--enable-inline-optimization' '--with-bz2' '--with-zlib' '--enable-sockets' '--enable-sysvsem' '--enable-sysvshm' '--enable-pcntl' '--enable-mbregex' '--enable-exif' '--enable-bcmath' '--with-mhash' '--enable-zip' '--with-pcre-regex' '--with-pdo-mysql=mysqlnd' '--with-mysqli=mysqlnd' '--with-openssl' '--with-fpm-user=xtreamcodes' '--with-fpm-group=xtreamcodes' '--with-libdir=/lib/x86_64-linux-gnu' '--with-gettext' '--with-xmlrpc' '--with-xsl' '--enable-opcache' '--enable-fpm' '--enable-libxml' '--enable-static' '--disable-shared' '--with-mcrypt' '--with-geoip'"
 #define PHP_ADA_INCLUDE		""
 #define PHP_ADA_LFLAGS		""
 #define PHP_ADA_LIBS		""
@@ -73,11 +71,9 @@
 #define PHP_LDAP_LFLAGS		""
 #define PHP_LDAP_INCLUDE	""
 #define PHP_LDAP_LIBS		""
-#define PHP_BIRDSTEP_INCLUDE     ""
-#define PHP_BIRDSTEP_LIBS        ""
 #define PEAR_INSTALLDIR         "/home/xtreamcodes/iptv_xtream_codes/php/lib/php"
 #define PHP_INCLUDE_PATH	".:/home/xtreamcodes/iptv_xtream_codes/php/lib/php"
-#define PHP_EXTENSION_DIR       "/home/xtreamcodes/iptv_xtream_codes/php/lib/php/extensions/no-debug-non-zts-20170718"
+#define PHP_EXTENSION_DIR       "/home/xtreamcodes/iptv_xtream_codes/php/lib/php/extensions/no-debug-non-zts-20180731"
 #define PHP_PREFIX              "/home/xtreamcodes/iptv_xtream_codes/php"
 #define PHP_BINDIR              "/home/xtreamcodes/iptv_xtream_codes/php/bin"
 #define PHP_SBINDIR             "/home/xtreamcodes/iptv_xtream_codes/php/sbin"

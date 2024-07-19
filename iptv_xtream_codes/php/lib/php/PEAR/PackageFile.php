@@ -34,7 +34,7 @@ define('PEAR_PACKAGEFILE_ERROR_INVALID_PACKAGEVERSION', 2);
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.10.5
+ * @version    Release: 1.10.12
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -94,13 +94,13 @@ class PEAR_PackageFile
      */
     function &parserFactory($version)
     {
-        if (!in_array($version{0}, array('1', '2'))) {
+        if (!in_array($version[0], array('1', '2'))) {
             $a = false;
             return $a;
         }
 
-        include_once 'PEAR/PackageFile/Parser/v' . $version{0} . '.php';
-        $version = $version{0};
+        include_once 'PEAR/PackageFile/Parser/v' . $version[0] . '.php';
+        $version = $version[0];
         $class = "PEAR_PackageFile_Parser_v$version";
         $a = new $class;
         return $a;
@@ -122,13 +122,13 @@ class PEAR_PackageFile
      */
     function &factory($version)
     {
-        if (!in_array($version{0}, array('1', '2'))) {
+        if (!in_array($version[0], array('1', '2'))) {
             $a = false;
             return $a;
         }
 
-        include_once 'PEAR/PackageFile/v' . $version{0} . '.php';
-        $version = $version{0};
+        include_once 'PEAR/PackageFile/v' . $version[0] . '.php';
+        $version = $version[0];
         $class = $this->getClassPrefix() . $version;
         $a = new $class;
         return $a;
@@ -283,7 +283,7 @@ class PEAR_PackageFile
      * @param string  $file  name of file or directory
      * @return  void
      */
-    function addTempFile($file)
+    static function addTempFile($file)
     {
         $GLOBALS['_PEAR_Common_tempfiles'][] = $file;
     }
@@ -315,7 +315,7 @@ class PEAR_PackageFile
         }
 
         if (!is_array($content)) {
-            if (is_string($file) && strlen($file < 255) &&
+            if (is_string($file) && strlen($file) < 255 &&
                   (!file_exists($file) || !@is_file($file))) {
                 $ret = PEAR::raiseError("could not open file \"$file\"");
                 return $ret;

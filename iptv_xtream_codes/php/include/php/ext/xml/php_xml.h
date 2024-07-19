@@ -18,8 +18,6 @@
    +----------------------------------------------------------------------+
 */
 
-/* $Id$ */
-
 #ifndef PHP_XML_H
 #define PHP_XML_H
 
@@ -34,9 +32,9 @@ extern zend_module_entry xml_module_entry;
 #define xml_module_ptr NULL
 #endif
 
-#ifdef HAVE_XML 
+#ifdef HAVE_XML
 
-#include "ext/xml/expat_compat.h"
+#include "expat_compat.h"
 
 #ifdef XML_UNICODE
 #error "UTF-16 Unicode support not implemented!"
@@ -60,7 +58,7 @@ typedef struct {
 	zval unparsedEntityDeclHandler;
 	zval notationDeclHandler;
 	zval externalEntityRefHandler;
-	zval unknownEncodingHandler;	
+	zval unknownEncodingHandler;
 	zval startNamespaceDeclHandler;
 	zval endNamespaceDeclHandler;
 
@@ -88,7 +86,7 @@ typedef struct {
 	int lastwasopen;
 	int skipwhite;
 	int isparsing;
-	
+
 	XML_Char *baseURI;
 } xml_parser;
 
@@ -108,9 +106,9 @@ enum php_xml_option {
 };
 
 /* for xml_parse_into_struct */
-	
+
 #define XML_MAXLEVEL 255 /* XXX this should be dynamic */
-	
+
 PHP_FUNCTION(xml_parser_create);
 PHP_FUNCTION(xml_parser_create_ns);
 PHP_FUNCTION(xml_set_object);

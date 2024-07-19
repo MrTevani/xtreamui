@@ -39,7 +39,7 @@ define('PEAR_INSTALLER_ERROR_NO_PREF_STATE', 2);
  * @author     Martin Jansen <mj@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.10.5
+ * @version    Release: 1.10.12
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.3.0
  */
@@ -62,11 +62,12 @@ class PEAR_Downloader extends PEAR_Common
      * Options from command-line passed to Install.
      *
      * Recognized options:<br />
-     *  - onlyreqdeps   : install all required dependencies as well
-     *  - alldeps       : install all dependencies, including optional
-     *  - installroot   : base relative path to install files in
-     *  - force         : force a download even if warnings would prevent it
-     *  - nocompress    : download uncompressed tarballs
+     *  - onlyreqdeps      : install all required dependencies as well
+     *  - alldeps          : install all dependencies, including optional
+     *  - installroot      : base relative path to install files in
+     *  - force            : force a download even if warnings would prevent it
+     *  - nocompress       : download uncompressed tarballs
+     *  - configureoptions : additional configure options
      * @see PEAR_Command_Install
      * @access private
      * @var array
@@ -185,7 +186,7 @@ class PEAR_Downloader extends PEAR_Common
                 if (!count($unused)) {
                     continue;
                 }
-                $strtolower = create_function('$a','return strtolower($a);');
+                $strtolower = function($a) { return strtolower($a); };
                 array_walk($this->_installed[$key], $strtolower);
             }
         }
@@ -1156,7 +1157,7 @@ class PEAR_Downloader extends PEAR_Common
             if (OS_WINDOWS && preg_match('/^[a-z]:/i', $path)) {
                 if (preg_match('/^[a-z]:/i', $prepend)) {
                     $prepend = substr($prepend, 2);
-                } elseif ($prepend{0} != '\\') {
+                } elseif ($prepend[0] != '\\') {
                     $prepend = "\\$prepend";
                 }
                 $path = substr($path, 0, 2) . $prepend . substr($path, 2);
@@ -1635,7 +1636,7 @@ class PEAR_Downloader extends PEAR_Common
         }
 
         $request .= $ifmodifiedsince .
-            "User-Agent: PEAR/1.10.5/PHP/" . PHP_VERSION . "\r\n";
+            "User-Agent: PEAR/1.10.12/PHP/" . PHP_VERSION . "\r\n";
 
         if ($object !== null) { // only pass in authentication for non-static calls
             $username = $config->get('username', null, $channel);
@@ -1712,7 +1713,8 @@ class PEAR_Downloader extends PEAR_Common
         if (!$wp = @fopen($dest_file, 'wb')) {
             fclose($fp);
             if ($callback) {
-                call_user_func($callback, 'writefailed', array($dest_file, $php_errormsg));
+                call_user_func($callback, 'writefailed',
+                    array($dest_file, error_get_last()["message"]));
             }
             return PEAR::raiseError("could not open $dest_file for writing");
         }
@@ -1732,9 +1734,11 @@ class PEAR_Downloader extends PEAR_Common
             if (!@fwrite($wp, $data)) {
                 fclose($fp);
                 if ($callback) {
-                    call_user_func($callback, 'writefailed', array($dest_file, $php_errormsg));
+                    call_user_func($callback, 'writefailed',
+                        array($dest_file, error_get_last()["message"]));
                 }
-                return PEAR::raiseError("$dest_file: write failed ($php_errormsg)");
+                return PEAR::raiseError(
+                    "$dest_file: write failed (" . error_get_last()["message"] . ")");
             }
         }
 

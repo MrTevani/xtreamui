@@ -31,6 +31,7 @@ if ('/home/xtreamcodes/iptv_xtream_codes/php/lib/php ' != '@'.'include_path'.'@ 
     $raw = false;
 } else {
     // this is a raw, uninstalled pear, either a cvs checkout, or php distro
+    ini_set('include_path', dirname(__DIR__) . PATH_SEPARATOR . get_include_path());
     $raw = true;
 }
 @ini_set('allow_url_fopen', true);
@@ -41,7 +42,7 @@ ob_implicit_flush(true);
 $_PEAR_PHPDIR = '#$%^&*';
 set_error_handler('error_handler');
 
-$pear_package_version = "1.10.5";
+$pear_package_version = "1.10.12";
 
 require_once 'PEAR.php';
 require_once 'PEAR/Frontend.php';
@@ -438,26 +439,23 @@ function cmdHelp($command)
  * @param mixed $errmsg Message
  * @param mixed $file   Filename
  * @param mixed $line   Line number
- * @param mixed $vars   Variables
  *
  * @access public
  * @return boolean
  */
-function error_handler($errno, $errmsg, $file, $line, $vars)
+function error_handler($errno, $errmsg, $file, $line)
 {
-    if ($errno & E_STRICT
-        || $errno & E_DEPRECATED
-        || !error_reporting()
+    if ($errno & E_STRICT) {
+        return; // E_STRICT
+    }
+    if ($errno & E_DEPRECATED) {
+        return; // E_DEPRECATED
+    }
+    if (!(error_reporting() & $errno) &&
+        isset($GLOBALS['config']) &&
+        $GLOBALS['config']->get('verbose') < 4
     ) {
-        if ($errno & E_STRICT) {
-            return; // E_STRICT
-        }
-        if ($errno & E_DEPRECATED) {
-            return; // E_DEPRECATED
-        }
-        if (!error_reporting() && isset($GLOBALS['config']) && $GLOBALS['config']->get('verbose') < 4) {
-            return false; // @silenced error, show all if debug is high enough
-        }
+        return false; // @silenced error, show all if debug is high enough
     }
     $errortype = array (
         E_DEPRECATED  => 'Deprecated Warning',

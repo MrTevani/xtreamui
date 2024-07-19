@@ -17,8 +17,6 @@
    +----------------------------------------------------------------------+
 */
 
-/* $Id$ */
-
 #ifndef PHP_PASSWORD_H
 #define PHP_PASSWORD_H
 
@@ -33,9 +31,9 @@ PHP_MINIT_FUNCTION(password);
 #define PHP_PASSWORD_BCRYPT_COST 10
 
 #if HAVE_ARGON2LIB
-#define PHP_PASSWORD_ARGON2_MEMORY_COST 1<<10
-#define PHP_PASSWORD_ARGON2_TIME_COST 2
-#define PHP_PASSWORD_ARGON2_THREADS 2
+#define PHP_PASSWORD_ARGON2_MEMORY_COST (64 << 10)
+#define PHP_PASSWORD_ARGON2_TIME_COST 4
+#define PHP_PASSWORD_ARGON2_THREADS 1
 #endif
 
 typedef enum {
@@ -43,6 +41,7 @@ typedef enum {
     PHP_PASSWORD_BCRYPT,
 #if HAVE_ARGON2LIB
     PHP_PASSWORD_ARGON2I,
+    PHP_PASSWORD_ARGON2ID,
 #endif
 } php_password_algo;
 

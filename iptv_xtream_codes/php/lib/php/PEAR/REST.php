@@ -28,7 +28,7 @@ require_once 'PEAR/Proxy.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.10.5
+ * @version    Release: 1.10.12
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -172,25 +172,24 @@ class PEAR_REST
 
     function useLocalCache($url, $cacheid = null)
     {
-        if ($cacheid === null) {
-            $cacheidfile = $this->config->get('cache_dir') . DIRECTORY_SEPARATOR .
-                md5($url) . 'rest.cacheid';
-            if (!file_exists($cacheidfile)) {
-                return false;
-            }
-
-            $cacheid = unserialize(implode('', file($cacheidfile)));
+        if (!is_array($cacheid)) {
+            $cacheid = $this->getCacheId($url);
         }
 
         $cachettl = $this->config->get('cache_ttl');
         // If cache is newer than $cachettl seconds, we use the cache!
-        if (time() - $cacheid['age'] < $cachettl) {
+        if (is_array($cacheid) && time() - $cacheid['age'] < $cachettl) {
             return $this->getCache($url);
         }
 
         return false;
     }
 
+    /**
+     * @param string $url
+     *
+     * @return bool|mixed
+     */
     function getCacheId($url)
     {
         $cacheidfile = $this->config->get('cache_dir') . DIRECTORY_SEPARATOR .
@@ -384,7 +383,7 @@ class PEAR_REST
         }
 
         $request .= $ifmodifiedsince .
-            "User-Agent: PEAR/1.10.5/PHP/" . PHP_VERSION . "\r\n";
+            "User-Agent: PEAR/1.10.12/PHP/" . PHP_VERSION . "\r\n";
 
         $username = $this->config->get('username', null, $channel);
         $password = $this->config->get('password', null, $channel);

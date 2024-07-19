@@ -12,11 +12,9 @@
    | obtain it through the world-wide-web, please send a note to          |
    | license@zend.com so we can mail you a copy immediately.              |
    +----------------------------------------------------------------------+
-   | Authors: Dmitry Stogov <dmitry@zend.com>                             |
+   | Authors: Dmitry Stogov <dmitry@php.net>                              |
    +----------------------------------------------------------------------+
 */
-
-/* $Id:$ */
 
 #ifndef _ZEND_ARENA_H_
 #define _ZEND_ARENA_H_
@@ -110,6 +108,17 @@ static zend_always_inline void zend_arena_release(zend_arena **arena_ptr, void *
 	}
 	ZEND_ASSERT((char*)checkpoint > (char*)arena && (char*)checkpoint <= arena->end);
 	arena->ptr = (char*)checkpoint;
+}
+
+static zend_always_inline zend_bool zend_arena_contains(zend_arena *arena, void *ptr)
+{
+	while (arena) {
+		if ((char*)ptr > (char*)arena && (char*)ptr <= arena->ptr) {
+			return 1;
+		}
+		arena = arena->prev;
+	}
+	return 0;
 }
 
 #endif /* _ZEND_ARENA_H_ */

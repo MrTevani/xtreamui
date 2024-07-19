@@ -22,7 +22,7 @@ require_once 'PEAR/ErrorStack.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.10.5
+ * @version    Release: 1.10.12
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -423,12 +423,12 @@ class PEAR_PackageFile_v2
     function _unmatchedMaintainers($my, $yours)
     {
         if ($my) {
-            array_walk($my, create_function('&$i, $k', '$i = $i["handle"];'));
+            array_walk($my, function(&$i, $k) { $i = $i["handle"]; });
             $this->_stack->push(__FUNCTION__, 'error', array('handles' => $my),
                 'package.xml 2.0 has unmatched extra maintainers "%handles%"');
         }
         if ($yours) {
-            array_walk($yours, create_function('&$i, $k', '$i = $i["handle"];'));
+            array_walk($yours, function(&$i, $k) { $i = $i["handle"]; });
             $this->_stack->push(__FUNCTION__, 'error', array('handles' => $yours),
                 'package.xml 1.0 has unmatched extra maintainers "%handles%"');
         }
@@ -2046,7 +2046,7 @@ class PEAR_PackageFile_v2
         if (is_array($manip[$tag]) && !empty($manip[$tag]) && isset($manip[$tag][0])) {
             $manip[$tag][] = $contents;
         } else {
-            if (!count($manip[$tag])) {
+            if (is_array($manip[$tag]) && !count($manip[$tag])) {
                 $manip[$tag] = $contents;
             } else {
                 $manip[$tag] = array($manip[$tag]);

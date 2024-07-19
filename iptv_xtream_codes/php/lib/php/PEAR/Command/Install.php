@@ -29,7 +29,7 @@ require_once 'PEAR/Command/Common.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.10.5
+ * @version    Release: 1.10.12
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -66,6 +66,11 @@ class PEAR_Command_Install extends PEAR_Command_Common
                 'nobuild' => array(
                     'shortopt' => 'B',
                     'doc' => 'don\'t build C extensions',
+                    ),
+                'configureoptions' => array(
+                    'shortopt' => 'D',
+                    'arg' => 'OPTION1=VALUE[ OPTION2=VALUE]',
+                    'doc' => 'space-delimited list of configure options',
                     ),
                 'nocompress' => array(
                     'shortopt' => 'Z',
